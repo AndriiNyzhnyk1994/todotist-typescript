@@ -12,60 +12,100 @@ export type TaskType = {
 }
 export type FilterValuesType = 'all' | 'active' | 'completed'
 
+export type TodoListType = {
+  todoListID: string
+  title: string
+  filter: FilterValuesType
+}
+export type TasksStateType = {
+  [key: string]: Array<TaskType>
+}
 
 
 
 function App() {
 
+  const todoListID_01 = v1()
+  const todoListID_02 = v1()
 
-  let [tasks, setTasks] = useState<Array<TaskType>>([
-    { id: v1(), title: 'Terminator', isDone: true },
-    { id: v1(), title: 'Furminator', isDone: false },
-    { id: v1(), title: 'Gladiator', isDone: true },
-    { id: v1(), title: 'Penetrator', isDone: false },
+
+  let [todoLists, setTodoLists] = useState<Array<TodoListType>>([
+    { todoListID: todoListID_01, title: 'Movies', filter: 'all' },
+    { todoListID: todoListID_02, title: 'Books', filter: 'all' },
   ])
-  let [filter, setFilter] = useState<FilterValuesType>('all')
+
+  let [tasks, setTasks] = useState<TasksStateType>({
+    [todoListID_01]: [
+      { id: v1(), title: 'Terminator', isDone: true },
+      { id: v1(), title: 'Furminator', isDone: false },
+      { id: v1(), title: 'Gladiator', isDone: true },
+      { id: v1(), title: 'Penetrator', isDone: false },
+    ],
+    [todoListID_02]: [
+      { id: v1(), title: 'The Hobbit', isDone: true },
+      { id: v1(), title: 'Angels And Demons', isDone: false },
+      { id: v1(), title: 'Eclipse', isDone: true },
+      { id: v1(), title: 'The Lovely Bones', isDone: false },
+    ]
+  })
 
 
-  const removeTask = (taskID: string) => {
-    setTasks(tasks.filter(t => t.id !== taskID))
+
+
+  const removeTask = (todoListID: string, taskID: string) => {
+    setTasks({
+      ...tasks,
+      [todoListID]: tasks[todoListID].filter(t => t.id !== taskID)
+    })
   }
-  const addTask = (newTaskTitle: string) => {
-    const newTask: TaskType = {id: v1(), title: newTaskTitle, isDone: false}
-    setTasks([newTask, ...tasks])
+  const addTask = (todoListID: string, newTaskTitle: string) => {
+    const newTask: TaskType = { id: v1(), title: newTaskTitle, isDone: false }
+    const todoListTasks = tasks[todoListID]
+    tasks[todoListID] = [ newTask, ...todoListTasks]
+    setTasks({...tasks})
   }
-  const changeFilter = (value: FilterValuesType) => {
-    setFilter(value)
-  }
-  const changeTaskStatus = (taskID: string, value: boolean) => {
-    const task = tasks.find(t => t.id === taskID)
-    if(task) {
-      task.isDone = value
-      setTasks([...tasks])
+  const changeFilter = (todoListID: string, value: FilterValuesType) => {
+    const todoList = todoLists.find(tl => tl.todoListID === todoListID)
+    if (todoList) {
+      todoList.filter = value
+      setTasks({ ...tasks })
     }
   }
-
-
-  let tasksForTodoList = tasks
-  if(filter === 'active') {
-    tasksForTodoList = tasks.filter(t => !t.isDone)
-  }
-  if(filter === 'completed') {
-    tasksForTodoList = tasks.filter(t => t.isDone)
+  const changeTaskStatus = (todoListID: string, taskID: string, value: boolean) => {
+    const task = tasks[todoListID].find(t => t.id === taskID)
+    if (task) {
+      task.isDone = value
+      setTasks({...tasks})
+    }
   }
 
 
   return (
     <div className="App">
-      <TodoList
-        title={'Movies'}
-        filter={filter}
-        tasks={tasksForTodoList}
-        removeTask={removeTask}
-        addTask={addTask}
-        changeTaskStatus={changeTaskStatus}
-        changeFilter={changeFilter}
-      />
+      {
+        todoLists.map(tl => {
+          let tasksForTodoList = tasks[tl.todoListID]
+          if (tl.filter === 'active') {
+            tasksForTodoList = tasks[tl.todoListID].filter(t => !t.isDone)
+          }
+          if (tl.filter === 'completed') {
+            tasksForTodoList = tasks[tl.todoListID].filter(t => t.isDone)
+          }
+          return (
+            <TodoList
+              id={tl.todoListID}
+              title={tl.title}
+              filter={tl.filter}
+              tasks={tasksForTodoList}
+              removeTask={removeTask}
+              addTask={addTask}
+              changeTaskStatus={changeTaskStatus}
+              changeFilter={changeFilter}
+            />
+          )
+        })
+      }
+
     </div>
   );
 }
