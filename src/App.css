@@ -1,3 +1,7 @@
+.addItemForm input {
+  min-width: 200px;
+}
+
 .App {
   text-align: center;
 }
@@ -7,3 +11,27 @@
 .error {
   border: 1px solid red;
 }
+
+.filter-buttons button{
+  color: black; 
+  border: 2px solid #4CAF50;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.active-class {
+  background-color: #4CAF50;
+}
+
+.filter-buttons button:active  {
+  opacity: 0.75;
+}
+.filter-buttons button:hover {
+  opacity: 0.75;
+}
+
