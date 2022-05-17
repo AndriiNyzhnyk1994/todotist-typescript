@@ -11,6 +11,9 @@
 .todo-list {
   margin-left: 100px;
 }
+.todo-list:first-child {
+  margin-left: 0;
+}
 .error-message {
   color: red;
 }

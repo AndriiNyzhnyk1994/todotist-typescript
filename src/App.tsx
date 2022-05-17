@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import TodoList from './Todolist';
 import { v1 } from 'uuid';
+import AddItemForm from './AddItemForm';
 
 
 export type TaskType = {
@@ -50,7 +51,12 @@ function App() {
   })
 
 
-
+  const addTodoList = (newTodoListTitle: string) => {
+    const newTodoListID = v1()
+    const newTodoList: TodoListType = { todoListID: newTodoListID, title: newTodoListTitle, filter: 'all' }
+    setTodoLists([newTodoList, ...todoLists])
+    setTasks({ [newTodoListID]: [], ...tasks })
+  }
 
   const removeTask = (todoListID: string, taskID: string) => {
     setTasks({
@@ -61,8 +67,8 @@ function App() {
   const addTask = (todoListID: string, newTaskTitle: string) => {
     const newTask: TaskType = { id: v1(), title: newTaskTitle, isDone: false }
     const todoListTasks = tasks[todoListID]
-    tasks[todoListID] = [ newTask, ...todoListTasks]
-    setTasks({...tasks})
+    tasks[todoListID] = [newTask, ...todoListTasks]
+    setTasks({ ...tasks })
   }
   const changeFilter = (todoListID: string, value: FilterValuesType) => {
     const todoList = todoLists.find(tl => tl.todoListID === todoListID)
@@ -75,13 +81,14 @@ function App() {
     const task = tasks[todoListID].find(t => t.id === taskID)
     if (task) {
       task.isDone = value
-      setTasks({...tasks})
+      setTasks({ ...tasks })
     }
   }
 
 
   return (
     <div className="App">
+      <AddItemForm addItem={addTodoList} />
       {
         todoLists.map(tl => {
           let tasksForTodoList = tasks[tl.todoListID]
@@ -93,6 +100,7 @@ function App() {
           }
           return (
             <TodoList
+              key={tl.todoListID}
               id={tl.todoListID}
               title={tl.title}
               filter={tl.filter}
