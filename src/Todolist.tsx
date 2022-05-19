@@ -1,6 +1,7 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 import AddItemForm from "./AddItemForm";
 import { FilterValuesType, TasksStateType, TaskType } from "./App";
+import EditableSpan from "./EditableStan";
 
 export type TodoListPropsType = {
     id: string
@@ -52,7 +53,7 @@ const TodoList = (props: TodoListPropsType) => {
                                     onChange={changeTaskStatus}
                                     checked={t.isDone}
                                 />
-                                <span>{t.title}</span>
+                                <EditableSpan  value={t.title}/>
                                 <button onClick={removeTask}>x</button>
                             </div>
                         )

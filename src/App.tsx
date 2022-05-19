@@ -84,6 +84,20 @@ function App() {
       setTasks({ ...tasks })
     }
   }
+  const changeTodoListTitle = (todoListID: string, newTitle: string) => {
+      let todoList = todoLists.find(tl => tl.todoListID === todoListID)
+      if(todoList) {
+        todoList.title = newTitle
+        setTodoLists([...todoLists])
+      }
+  }
+  const changeTaskTitle = (todoListID: string, taskID: string, newTitle: string) => {
+    let task = tasks[todoListID].find(t => t.id === taskID)
+    if(task) {
+      task.title = newTitle
+      setTasks({...tasks})
+    }
+  }
 
 
   return (
