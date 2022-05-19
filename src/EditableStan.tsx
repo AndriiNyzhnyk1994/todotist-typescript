@@ -30,8 +30,6 @@ const EditableSpan = (props: EditableSpanPropsType) => {
         changeTitle(value)
     }
 
-
-
     return (
         editMode
             ? <input onChange={onChangeHandler} onBlur={offEditMode} autoFocus={true} value = { value } />
