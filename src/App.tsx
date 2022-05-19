@@ -123,6 +123,8 @@ function App() {
               addTask={addTask}
               changeTaskStatus={changeTaskStatus}
               changeFilter={changeFilter}
+              changeTaskTitle={changeTaskTitle}
+              changeTodoListTitle={changeTodoListTitle}
             />
           )
         })

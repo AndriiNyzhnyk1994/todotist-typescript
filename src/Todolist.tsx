@@ -12,6 +12,8 @@ export type TodoListPropsType = {
     addTask: (todoListID: string, newTaskTitle: string) => void
     changeTaskStatus: (todoListID: string, taskID: string, value: boolean) => void
     changeFilter: (todoListID: string, value: FilterValuesType) => void
+    changeTodoListTitle: (todoListID: string, newTitle: string) => void
+    changeTaskTitle: (todoListID: string, taskID: string, newTitle: string) => void
 }
 
 
@@ -30,11 +32,15 @@ const TodoList = (props: TodoListPropsType) => {
     const onCompletedHandler = () => {
         props.changeFilter(props.id, 'completed')
     }
-
+    const changeTodoListTitle = (newTitle: string) => {
+        props.changeTodoListTitle(props.id, newTitle)
+    }
 
     return (
-        <div className="todo-list">
-            <h3>{props.title}</h3>
+        <div key={props.id} className="todo-list">
+            <h3>
+                <EditableSpan changeTitle={changeTodoListTitle} value={props.title}/>
+            </h3>
             <AddItemForm addItem={addTask} />
             <div>
                 {
@@ -45,6 +51,9 @@ const TodoList = (props: TodoListPropsType) => {
                         const changeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => {
                             props.changeTaskStatus(props.id, t.id, e.currentTarget.checked)
                         }
+                        const changeTaskTitle = (newTitle: string) => {
+                            props.changeTaskTitle(props.id, t.id, newTitle)
+                        }
 
                         return (
                             <div key={t.id}>
@@ -53,7 +62,7 @@ const TodoList = (props: TodoListPropsType) => {
                                     onChange={changeTaskStatus}
                                     checked={t.isDone}
                                 />
-                                <EditableSpan  value={t.title}/>
+                                <EditableSpan changeTitle={changeTaskTitle} value={t.title}/>
                                 <button onClick={removeTask}>x</button>
                             </div>
                         )
