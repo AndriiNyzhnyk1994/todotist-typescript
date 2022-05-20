@@ -50,7 +50,7 @@ function App() {
     ]
   })
 
-
+  
   const addTodoList = (newTodoListTitle: string) => {
     const newTodoListID = v1()
     const newTodoList: TodoListType = { todoListID: newTodoListID, title: newTodoListTitle, filter: 'all' }
