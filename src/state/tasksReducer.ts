@@ -38,7 +38,9 @@ export type ChangeTaskStatusActionType = {
 }
 
 
-const initialState = {}
+const initialState = {
+    
+}
 
 
 
@@ -84,6 +86,7 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Tasks
             delete stateCopy[action.todoListID]
             return stateCopy
         }
+        default: return state
     }
 }
 
