@@ -1,5 +1,6 @@
 import { TasksStateType } from "../App";
 import { addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from "./tasksReducer";
+import { removeTodoListAC } from "./todolistReducer";
 
 
 
@@ -58,3 +59,10 @@ test('task status should be changed', () => {
     // expect(endState["todolistID2"].length).toBe(3);
     expect(endState["todolistID1"][1].isDone).toBe(true);
 });
+
+test('tasks from correct todolist should be removed with todolist by function removeTodoList', () => {
+       const action = removeTodoListAC('todolistID1')
+       const endState: TasksStateType = tasksReducer(startState, action)
+       
+       expect(endState["todolistID2"][0].title).toBe('bread')
+})

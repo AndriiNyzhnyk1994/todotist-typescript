@@ -2,7 +2,7 @@ import { TLSSocket } from "tls";
 import { v1 } from "uuid";
 import { FilterValuesType, TodoListType } from "../App";
 
-const REMOVE_TODOLIST = 'REMOVE-TODOLIST'
+export const REMOVE_TODOLIST = 'REMOVE-TODOLIST'
 export const ADD_TODOLIST = 'ADD-TODOLIST'
 const CHANGE_TODOLIST_TITLE = 'CHANGE-TODOLIST-TITLE'
 const CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER'
